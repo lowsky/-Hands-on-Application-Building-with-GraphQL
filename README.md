@@ -24,8 +24,9 @@ To fully benefit from the coverage included in this course, you will need:<br/>
 A go-to resource for programmers keen to building applications in a relatively fast and easy way. You should already have some basic knowledge of creating a web application with React. By the end of this course, you'll be ready to create your own real-life app with GraphQL.
 ### Technical Requirements
 This course has the following software requirements:<br/>
-OS: Windows 7 or Windows 10
-Browser: Google Chrome, Latest Version
+<UL>
+<LI>OS: Windows 7 or Windows 10
+<LI>Browser: Google Chrome, Latest Version</LI></UL>
 
 ## Related Products
 * [Hands-on GraphQL for Better RESTful Web Services [Video]](https://www.packtpub.com/application-development/hands-graphql-better-restful-web-services-video?utm_source=github&utm_medium=repository&utm_campaign=9781788995627)
