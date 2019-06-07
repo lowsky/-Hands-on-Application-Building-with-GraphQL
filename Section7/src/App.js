@@ -25,9 +25,9 @@ import {
 import './App.css';
 
 import { CoolBoard } from './components/CoolBoard';
-import Boards from './components/Boards';
-import LoginForm from './authentication/LoginForm';
-import SignupForm from './authentication/SignupForm';
+import { Boards } from './components/Boards';
+import { LoginForm } from './authentication/LoginForm';
+import { SignupForm } from './authentication/SignupForm';
 import { FullVerticalContainer } from './common/FullVerticalContainer';
 import { ProfileHeader } from './common/ProfileHeader';
 import { GeneralErrorHandler } from './common/GeneralErrorHandler';

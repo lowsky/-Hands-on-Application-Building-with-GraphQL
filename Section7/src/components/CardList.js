@@ -2,7 +2,7 @@ import React from 'react';
 import { DropTarget } from 'react-dnd';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { Query } from 'react-apollo';
 
 import {
   Button,
@@ -25,11 +25,7 @@ class CardListWithoutDnd extends React.Component {
     } = this.props;
 
     const { cardList } = this.props;
-    const { list = {}, loading, error } = cardList;
-
-    if (error) {
-      return <div>ERROR! {error.message} </div>;
-    }
+    const { list = {}, loading } = cardList;
 
     // use name injected as default if not yet available
     let { name = this.props.name, cards = [] } = list;
@@ -79,8 +75,8 @@ class CardListWithoutDnd extends React.Component {
 }
 
 const dropTarget = {
-  drop(props, monitor, component) {
-    let cardItem = monitor.getItem();
+  drop(props, monitor) {
+    const cardItem = monitor.getItem();
     const cardId = cardItem.id;
     const cardListId = props.id;
     const oldCardListId = cardItem.cardListId;
@@ -90,11 +86,10 @@ const dropTarget = {
       cardListId
     );
   },
-  hover(props, monitor) {},
+  hover() {},
   canDrop(props, monitor) {
-    let item = monitor.getItem();
-    let can = !(props.id === item.cardListId);
-    return can;
+    const item = monitor.getItem();
+    return !(props.id === item.cardListId);
   },
 };
 
@@ -116,29 +111,40 @@ const CardListfragments = {
   `,
 };
 
-const queryOptions = {
-  name: 'cardList',
-  options: props => ({
-    variables: {
-      cardListId: props.id,
-    },
-  }),
-};
+const CardListWithDnd = DropTarget(
+  dndItemType,
+  dropTarget,
+  collect
+)(CardListWithoutDnd);
 
-export const CardList = graphql(
-  gql`
-    query CardList($cardListId: ID) {
+export const CardList = ({ id, ...props }) => (
+  <Query
+    variables={{ cardListId: id }}
+    query={gql`query CardList($cardListId: ID) {
       list(where: { id: $cardListId }) {
         ...CardList_list
+        }
+      }
+      ${CardListfragments.list}
+      `
+    }>
+    {({ loading, error, data }) => {
+      if (error) {
+        return <span>Load error!</span>;
+      }
+      const cardList = {
+        ...data,
+        loading,
+      };
+      return (
+        <CardListWithDnd
+          {...props}
+          cardList={cardList}
+          id={id}
+        />);
       }
     }
-    ${CardListfragments.list}
-  `,
-  queryOptions
-)(
-  DropTarget(dndItemType, dropTarget, collect)(
-    CardListWithoutDnd
-  )
+  </Query>
 );
 
 const CardListHeader = ({ name, children }) => (
@@ -214,7 +220,10 @@ const ListContainer = ({ children, style }) => (
   </div>
 );
 
-const CardListButton = ({ onButtonClick, children }) => (
+const CardListButton = ({
+  onButtonClick,
+  children,
+}) => (
   <Button
     compact
     onClick={() => onButtonClick()}

@@ -14,8 +14,7 @@ import {
 import TimeAgo from 'react-timeago';
 
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
-import { compose } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 
 import { DragSource } from 'react-dnd';
 
@@ -38,6 +37,10 @@ const ShowDiffWarning = ({
     <b>New:</b> {newValue}
   </Message>
 );
+ShowDiffWarning.propTypes = {
+  newValue: PropTypes.string,
+  currentValue: PropTypes.string,
+};
 
 export class CardComponent extends React.Component {
   constructor(props) {
@@ -304,29 +307,25 @@ const EditCardMutation = gql`
   ${CardComponent.fragments.card}
 `;
 
-export const Card = compose(
-  graphql(EditCardMutation, {
-    props: ({ mutate }) => ({
-      storeCard: ({
-        id,
-        name,
-        description,
-        old_name,
-        old_description,
-      }) => {
-        return mutate({
-          variables: {
-            id,
-            name,
-            old_name,
-            description,
-            old_description,
-          },
-        });
-      },
-    }),
-  })
-)(CardComponent);
+export const Card = props => (
+  <Mutation
+    mutation={EditCardMutation}
+    variables={{
+      ...props,
+    }}>
+    { mutation => <CardComponent {...props} storeCard={(vars) => mutation({
+        variables: vars
+      })
+    }/> }
+  </Mutation>);
+
+Card.propTypes = {
+  id: PropTypes.string.isRequired,
+  cardListId: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  storeCard: PropTypes.func,
+};
 
 class CardForDragging extends Component {
   render() {

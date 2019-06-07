@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-import { graphql } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import AuthForm from './AuthForm';
+import PropTypes from 'prop-types';
 
-class SignUpForm extends Component {
+class SignUpFormComponent extends Component {
   state = { errors: [] };
 
   onSubmit({ name, email, password, avatarUrl }) {
@@ -64,4 +65,19 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-export default graphql(SIGNUP_MUTATION)(SignUpForm);
+export const SignupForm = ({ successfulLogin }) => (
+  <Mutation mutation={SIGNUP_MUTATION}>
+    {mutate => {
+      return (
+        <SignUpFormComponent
+          mutate={mutate}
+          successfulLogin={successfulLogin}
+        />
+      );
+    }}
+  </Mutation>
+);
+
+SignupForm.propTypes = {
+  successfulLogin: PropTypes.func,
+};

@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
   Container,
   Icon,
   Image,
+  Loader,
 } from 'semantic-ui-react';
 
 import { Link } from 'react-router-dom';
+import { Query } from 'react-apollo';
 
 const ProfileHeaderContainer = ({ children }) => (
   <Container
@@ -23,6 +24,7 @@ const ProfileHeaderContainer = ({ children }) => (
       style={{
         display: 'flex',
         alignItems: 'center',
+        placeContent: 'space-between',
       }}>
       <div style={{ flexGrow: 1, textAlign: 'start' }}>
         <Link to="/">
@@ -35,54 +37,57 @@ const ProfileHeaderContainer = ({ children }) => (
   </Container>
 );
 
-const ProfileHeaderComponent = ({ data }) => {
-  const { loading, error, me = {} } = data;
-
-  if (loading) {
-    return (
-      <ProfileHeaderContainer>
-      </ProfileHeaderContainer>
-    );
-  }
-
-  if (error) {
-    return (
-      <ProfileHeaderContainer>
-        <Link to="/login">Log in</Link>
-      </ProfileHeaderContainer>
-    );
-  }
-
-  let { avatarUrl, name } = me;
-
-  return (
-    <ProfileHeaderContainer>
-      <span>{name} </span>
-      {avatarUrl && (
-        <Image
-          src={avatarUrl}
-          avatar
-          style={{ margin: '0 4px' }}
-        />
-      )}
-
-      <Link to="/logout">
-        <Icon name="log out" />Logout
-      </Link>
-    </ProfileHeaderContainer>
-  );
-};
-
-export const ProfileHeader = graphql(
-  gql`
-    query Profile {
-      me {
-        email
-        id
-        name
-        avatarUrl
+export const ProfileHeader = () => (
+// { options: { fetchPolicy: 'network-only' } }
+<Query
+  query={gql`
+      {
+        me {
+          email
+          id
+          name
+          avatarUrl
+        }
       }
+    `}
+>
+
+  {
+    ({ loading, error, data }) => {
+      if (loading) {
+        return (
+          <ProfileHeaderContainer>
+            <Loader active/>
+            Loading user...
+          </ProfileHeaderContainer>
+        );
+      }
+
+      if(error) {
+        return (
+          <ProfileHeaderContainer>
+            <Link to="/login">
+              <Icon size="big" name="sign in"/>Log in
+            </Link>
+          </ProfileHeaderContainer>
+        );
+      }
+
+      const { me: { avatarUrl, name } } = data;
+
+      return (
+        <ProfileHeaderContainer>
+          <span>{name} </span>
+          {avatarUrl && (
+            <Image src={avatarUrl} avatar spaced/>
+          )}
+
+          <Link to="/logout">
+            <Icon name="log out"/>Logout
+          </Link>
+        </ProfileHeaderContainer>
+      );
     }
-  `,
-  { options: { fetchPolicy: 'network-only' } }
-)(ProfileHeaderComponent);
+  }
+
+</Query>);

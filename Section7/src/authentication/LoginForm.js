@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-import { graphql } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import AuthForm from './AuthForm';
+import PropTypes from 'prop-types';
 
-class LoginForm extends Component {
+class LoginFormComponent extends Component {
   state = { errors: [] };
 
   onSubmit(formData) {
@@ -16,7 +17,9 @@ class LoginForm extends Component {
         variables: formData,
       })
         .then(({ data }) => {
-          const { login: { token } } = data;
+          const {
+            login: { token },
+          } = data;
 
           successfulLogin(token);
         })
@@ -25,6 +28,8 @@ class LoginForm extends Component {
           const errors = res.graphQLErrors.map(
             error => error.message
           );
+
+          console.error('login failed', res);
 
           this.setState({ errors });
         });
@@ -52,6 +57,11 @@ class LoginForm extends Component {
   }
 }
 
+LoginFormComponent.propTypes = {
+  successfulLogin: PropTypes.func,
+  mutate: PropTypes.func,
+};
+
 const LOGIN_MUTATION = gql`
   mutation LoginMutation(
     $email: String!
@@ -59,13 +69,23 @@ const LOGIN_MUTATION = gql`
   ) {
     login(email: $email, password: $password) {
       token
-      user {
-        email
-        name
-        avatarUrl
-      }
     }
   }
 `;
 
-export default graphql(LOGIN_MUTATION)(LoginForm);
+export const LoginForm = ({ successfulLogin }) => (
+  <Mutation mutation={LOGIN_MUTATION}>
+    {mutate => {
+      return (
+        <LoginFormComponent
+          mutate={mutate}
+          successfulLogin={successfulLogin}
+        />
+      );
+    }}
+  </Mutation>
+);
+
+LoginForm.propTypes = {
+  successfulLogin: PropTypes.func,
+};
