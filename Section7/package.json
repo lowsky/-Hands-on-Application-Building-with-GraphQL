@@ -2,12 +2,16 @@
   "name": "coolboard",
   "version": "0.1.0",
   "private": true,
+  "installConfig": {
+    "pnp": false
+  },
   "dependencies": {
     "apollo-cache-inmemory": "1.6.0",
     "apollo-client": "2.6.0",
     "apollo-link": "1.2.11",
     "apollo-link-http": "1.5.14",
     "apollo-link-ws": "^1.0.17",
+    "apollo-utilities": "1.3.1",
     "graphql": "14.3.1",
     "graphql-tag": "2.10.1",
     "graphql-tools": "4.0.4",
