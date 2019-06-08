@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import gql from 'graphql-tag';
@@ -39,11 +39,18 @@ export const Card = props => (
     variables={{
       ...props,
     }}>
-    { mutation => <CardComponent {...props} storeCard={(vars) => mutation({
-        variables: vars
-      })
-    }/> }
-  </Mutation>);
+    {mutation => (
+      <CardComponent
+        {...props}
+        storeCard={vars =>
+          mutation({
+            variables: vars,
+          })
+        }
+      />
+    )}
+  </Mutation>
+);
 
 Card.propTypes = {
   id: PropTypes.string.isRequired,
@@ -53,16 +60,15 @@ Card.propTypes = {
   storeCard: PropTypes.func,
 };
 
-class CardForDragging extends Component {
-  render() {
-    const { connectDragSource } = this.props;
-    return connectDragSource(
-      <div>
-        <Card {...this.props} />
-      </div>
-    );
-  }
-}
+const CardForDragging = ({
+  connectDragSource,
+  ...props
+}) =>
+  connectDragSource(
+    <div>
+      <Card {...props} />
+    </div>
+  );
 
 CardForDragging.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
@@ -76,12 +82,12 @@ CardForDragging.fragments = {
 
 const cardSource = {
   // the only important info:
-  beginDrag: (props, monitor, component) => ({
+  beginDrag: props => ({
     id: props.id,
     cardListId: props.cardListId, // for canDrag
   }),
   // only can be dragged to a different list
-  canDrag: (props, monitor) => !!props.cardListId,
+  canDrag: props => !!props.cardListId,
 };
 
 const collect = (connect, monitor) => ({

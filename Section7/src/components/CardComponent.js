@@ -1,5 +1,13 @@
 import React from 'react';
-import { Button, Form, Icon, Image, Message, Modal, Segment } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Icon,
+  Image,
+  Message,
+  Modal,
+  Segment,
+} from 'semantic-ui-react';
 import TimeAgo from 'react-timeago';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
@@ -29,9 +37,9 @@ export class CardComponent extends React.Component {
   componentWillReceiveProps(newProps) {
     console.log(
       'componentWillReceiveProps()',
-      newProps,
+      newProps
     );
-    if(this.state.showModal) {
+    if (this.state.showModal) {
       this.setState({
         conflict: { newProps },
       });
@@ -111,7 +119,12 @@ export class CardComponent extends React.Component {
       fontWeight: 'bold',
       fontStyle: 'italic',
     };
-    const { isDragging, updatedBy = {} } = this.props;
+    const {
+      isDragging,
+      createdAt,
+      updatedAt,
+      updatedBy = {},
+    } = this.props;
     return (
       <CardDiv onClick={() => this.showAndReset()}>
         <Modal open={showModal} onClose={this.hide}>
@@ -161,21 +174,21 @@ export class CardComponent extends React.Component {
               <Message>
                 <p>
                   <strong>created: </strong>
-                  <TimeAgo
-                    date={this.props.createdAt}
-                  />
+                  <TimeAgo date={createdAt} />
                 </p>
                 <p>
                   <strong>updated: </strong>
-                  <TimeAgo
-                    date={this.props.updatedAt}
-                  />
+                  <TimeAgo date={updatedAt} />
                   <strong> by: </strong>
-                  {updatedBy &&
-                  <Image avatar src={updatedBy.avatarUrl}>
-                  </Image>
-                  }
-                  <span>{updatedBy ? updatedBy.name : '?'}</span>
+                  {updatedBy && (
+                    <Image
+                      avatar
+                      src={updatedBy.avatarUrl}
+                    />
+                  )}
+                  <span>
+                    {updatedBy ? updatedBy.name : '?'}
+                  </span>
                 </p>
               </Message>
             </Segment>
@@ -189,7 +202,7 @@ export class CardComponent extends React.Component {
                   this.saveAndHide();
                 }}
                 inverted>
-                <Icon name="save"/> Overwrite
+                <Icon name="save" /> Overwrite
               </Button>
             )}
             {!conflict && (
@@ -199,14 +212,14 @@ export class CardComponent extends React.Component {
                   this.saveAndHide();
                 }}
                 inverted>
-                <Icon name="save"/> Save
+                <Icon name="save" /> Save
               </Button>
             )}
             <Button
               color="red"
               onClick={this.hide}
               inverted>
-              <Icon name="cancel"/> Close/cancel
+              <Icon name="cancel" /> Close/cancel
             </Button>
           </Modal.Actions>
         </Modal>
@@ -225,22 +238,26 @@ CardComponent.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   storeCard: PropTypes.func,
+  isDragging: PropTypes.bool,
+  createdAt: PropTypes.string,
+  updatedAt: PropTypes.string,
+  updatedBy: PropTypes.object,
 };
 
 CardComponent.fragments = {
   card: gql`
-      fragment Card_card on Card {
-          id
-          name
-          description
-          createdAt
-          updatedAt
-          updatedBy {
-              avatarUrl
-              name
-              id
-          }
+    fragment Card_card on Card {
+      id
+      name
+      description
+      createdAt
+      updatedAt
+      updatedBy {
+        avatarUrl
+        name
+        id
       }
+    }
   `,
 };
 
@@ -253,9 +270,9 @@ const CardDiv = styled.div`
 `;
 
 const ShowDiffWarning = ({
-                           newValue,
-                           currentValue,
-                         }) => (
+  newValue,
+  currentValue,
+}) => (
   <Message
     warning
     size="mini"

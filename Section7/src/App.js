@@ -96,46 +96,46 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <ApolloProvider client={client}>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <FullVerticalContainer>
-                    <ProfileHeader />
-                    <GeneralErrorHandler
-                      NetworkStatusNotifier={
-                        NetworkStatusNotifier
-                      }
-                    />
-                    <Boards />
-                  </FullVerticalContainer>
-                )}
-              />
+            <FullVerticalContainer>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => (
+                    <React.Fragment>
+                      <ProfileHeader />
+                      <GeneralErrorHandler
+                        NetworkStatusNotifier={
+                          NetworkStatusNotifier
+                        }
+                      />
+                      <Boards />
+                    </React.Fragment>
+                  )}
+                />
 
-              <Route
-                exact
-                path="/board/:id"
-                render={({ match }) => (
-                  <FullVerticalContainer>
-                    <ProfileHeader />
-                    <GeneralErrorHandler
-                      NetworkStatusNotifier={
-                        NetworkStatusNotifier
-                      }
-                    />
-                    <CoolBoard
-                      boardId={match.params.id}
-                    />
-                  </FullVerticalContainer>
-                )}
-              />
+                <Route
+                  exact
+                  path="/board/:id"
+                  render={({ match }) => (
+                    <React.Fragment>
+                      <ProfileHeader />
+                      <GeneralErrorHandler
+                        NetworkStatusNotifier={
+                          NetworkStatusNotifier
+                        }
+                      />
+                      <CoolBoard
+                        boardId={match.params.id}
+                      />
+                    </React.Fragment>
+                  )}
+                />
 
-              <Route
-                exact
-                path="/login"
-                render={({ history }) => (
-                  <FullVerticalContainer>
+                <Route
+                  exact
+                  path="/login"
+                  render={({ history }) => (
                     <LoginForm
                       successfulLogin={token => {
                         localStorage.setItem(
@@ -149,38 +149,38 @@ class App extends Component {
                           });
                       }}
                     />
-                  </FullVerticalContainer>
-                )}
-              />
+                  )}
+                />
 
-              <Route
-                exact
-                path="/signup"
-                render={({ history }) => (
-                  <FullVerticalContainer>
+                <Route
+                  exact
+                  path="/signup"
+                  render={({ history }) => (
                     <SignupForm
                       successfulSignup={() => {
                         history.push('/login');
                       }}
                     />
-                  </FullVerticalContainer>
-                )}
-              />
+                  )}
+                />
 
-              <Route
-                exact
-                path="/logout"
-                render={({ history }) => {
-                  localStorage.removeItem('token');
-                  client.resetStore().then(() => {
-                    history.push(`/`);
-                  });
-                  return (
-                    <p>Please wait, logging out ...</p>
-                  );
-                }}
-              />
-            </Switch>
+                <Route
+                  exact
+                  path="/logout"
+                  render={({ history }) => {
+                    localStorage.removeItem('token');
+                    client.resetStore().then(() => {
+                      history.push(`/`);
+                    });
+                    return (
+                      <p>
+                        Please wait, logging out ...
+                      </p>
+                    );
+                  }}
+                />
+              </Switch>
+            </FullVerticalContainer>
           </ApolloProvider>
         </BrowserRouter>
       </div>

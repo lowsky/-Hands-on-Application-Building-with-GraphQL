@@ -26,10 +26,12 @@ export const GeneralErrorHandler = ({
                   You need to be authenticated to see
                   or change items.
                 </strong>
-                <p>Please click
+                <p>
+                  Please click
                   <Link to="/login">
                     <span> this link </span>
-                  </Link> to log-in!
+                  </Link>{' '}
+                  to log-in!
                 </p>
               </Message>
             );
@@ -53,18 +55,18 @@ export const GeneralErrorHandler = ({
               </p>
             </Message>
           );
-        } else {
-          console.log('unknown error!', error);
-          return (
-            <Message error>
-              <strong>Unknown error!</strong>
-              <p>
-                You could find more details in the
-                browser console.
-              </p>
-            </Message>
-          );
         }
+
+        console.log('unknown error!', error);
+        return (
+          <Message error>
+            <strong>Unknown error!</strong>
+            <p>
+              You could find more details in the
+              browser console.
+            </p>
+          </Message>
+        );
       }
       // do not render anything, when there is no error above
       return false;

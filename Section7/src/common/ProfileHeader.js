@@ -37,9 +37,9 @@ const ProfileHeaderContainer = ({ children }) => (
 );
 
 export const ProfileHeader = () => (
-// { options: { fetchPolicy: 'network-only' } }
-<Query
-  query={gql`
+  // { options: { fetchPolicy: 'network-only' } }
+  <Query
+    query={gql`
       {
         me {
           email
@@ -48,44 +48,45 @@ export const ProfileHeader = () => (
           avatarUrl
         }
       }
-    `}
->
-  {
-    ({ loading, error, data }) => {
+    `}>
+    {({ loading, error, data }) => {
       if (loading) {
         return (
           <ProfileHeaderContainer>
-            <Loader active/>
+            <Loader active />
             Loading user...
           </ProfileHeaderContainer>
         );
       }
 
-      if(error) {
+      if (error) {
         return (
           <ProfileHeaderContainer>
             <Link to="/login">
-              <Icon size="big" name="sign in"/>Log in
+              <Icon size="big" name="sign in" />
+              Log in
             </Link>
           </ProfileHeaderContainer>
         );
       }
 
-      const { me: { avatarUrl, name } } = data;
+      const {
+        me: { avatarUrl, name },
+      } = data;
 
       return (
         <ProfileHeaderContainer>
           <span>{name} </span>
           {avatarUrl && (
-            <Image src={avatarUrl} avatar spaced/>
+            <Image src={avatarUrl} avatar spaced />
           )}
 
           <Link to="/logout">
-            <Icon name="log out"/>Logout
+            <Icon name="log out" />
+            Logout
           </Link>
         </ProfileHeaderContainer>
       );
-    }
-  }
-
-</Query>);
+    }}
+  </Query>
+);

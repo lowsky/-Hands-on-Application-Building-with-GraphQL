@@ -21,6 +21,7 @@ class Board extends React.Component {
       deleteAllLists,
       moveCard,
       boardId,
+      subscribeToMore,
     } = this.props;
 
     const { name, lists = [] } = board;
@@ -74,6 +75,10 @@ class Board extends React.Component {
       });
     };
 
+    this.subscribeToBoardUpdates(subscribeToMore);
+    this.subscribeToCardUpdates(subscribeToMore);
+    this.subscribeToListUpdates(subscribeToMore);
+
     return (
       <BoardContainer boardName={name}>
         <DelListButton
@@ -97,15 +102,8 @@ class Board extends React.Component {
     );
   }
 
-  _componentDidMount() {
-    // const { boardId, subscribeToMore } = this.props;
-    // this.subscripeToBoardUpdates(subscribeToMore, boardId);
-    // this.subscribeToListUpdates(boardQuery.subscribeToMore);
-    // this.subscribeToCardUpdates(boardQuery.subscribeToMore);
-  }
-
   // for edit-board or  add-cardlist = board update
-  subscripeToBoardUpdates(subscribeToMore, boardId) {
+  subscribeToBoardUpdates(subscribeToMore, boardId) {
     subscribeToMore({
       document: BoardSubscription,
       variables: {
@@ -136,13 +134,12 @@ class Board extends React.Component {
          */
         if ('DELETED' === list.mutation) {
           const oldList = prev.board.lists;
-          const lists = [];
 
-          // filter-out specific cardList
-          oldList.forEach(cardList => {
-            if (cardList.id !== list.previousValues.id)
-              lists.push(cardList);
-          });
+          // use all items, but the specific cardList
+          const lists = oldList.filter(
+            cardList =>
+              cardList.id !== list.previousValues.id
+          );
 
           const newBoard = {
             ...prev.board,
@@ -325,7 +322,6 @@ const BoardWithAddCard = props => (
                   },
                 })
               }
-              boardQuery={data}
               subscribeToMore={subscribeToMore}
             />
           );

@@ -44,7 +44,10 @@ class CardListWithoutDnd extends React.Component {
                   : 'lightgrey',
               }}>
               <CardListHeader name={name}>
-                <CardListButton onButtonClick={() => deleteListWithId(id)}>
+                <CardListButton
+                  onButtonClick={() =>
+                    deleteListWithId(id)
+                  }>
                   <Icon name="trash" />
                 </CardListButton>
               </CardListHeader>
@@ -65,7 +68,10 @@ class CardListWithoutDnd extends React.Component {
                 </div>
               )}
 
-              <CardListButton onButtonClick={() => addCardWithName(id)}>
+              <CardListButton
+                onButtonClick={() =>
+                  addCardWithName(id)
+                }>
                 <Icon name="plus" />
                 Add a card
               </CardListButton>

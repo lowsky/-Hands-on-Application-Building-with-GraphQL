@@ -12,18 +12,16 @@ import { Link } from 'react-router-dom';
 
 import { CreateBoardModal } from './CreateBoardModal';
 
-const BoardListItem = ({ name, id, deleteBoard }) => {
-  return (
-    <div>
-      <Link to={`/board/${id}`}>{name}</Link>
-      <Button
-        onClick={() => deleteBoard(id)}
-        size='mini'
-        icon="trash"
-      />
-    </div>
-  );
-};
+const BoardListItem = ({ name, id, deleteBoard }) => (
+  <div>
+    <Link to={`/board/${id}`}>{name}</Link>
+    <Button
+      onClick={() => deleteBoard(id)}
+      size="mini"
+      icon="trash"
+    />
+  </div>
+);
 
 const BoardList = ({ boards, deleteBoard }) =>
   boards.map(({ id, ...info }) => (
