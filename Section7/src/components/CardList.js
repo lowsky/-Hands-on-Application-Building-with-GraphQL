@@ -12,7 +12,7 @@ import {
   Popup,
 } from 'semantic-ui-react';
 
-import styles from './CardList.module.scss';
+import styles from './CardList.module.css';
 
 import Card, { dndItemType } from './Card';
 
@@ -36,7 +36,8 @@ class CardListWithoutDnd extends React.Component {
       <div>
         {connectDropTarget(
           <div>
-            <ListContainer
+            <div
+              className={styles.list}
               style={{
                 backgroundColor: isOver
                   ? 'yellow'
@@ -51,8 +52,8 @@ class CardListWithoutDnd extends React.Component {
               {loading ? (
                 <Loader active />
               ) : (
-                <InnerScrollContainer>
-                  <CardsContainer>
+                <div className={styles.inner}>
+                  <div className={styles.container}>
                     {cards.map(c => (
                       <Card
                         key={c.id}
@@ -60,15 +61,15 @@ class CardListWithoutDnd extends React.Component {
                         cardListId={id}
                       />
                     ))}
-                  </CardsContainer>
-                </InnerScrollContainer>
+                  </div>
+                </div>
               )}
 
               <CardListButton onButtonClick={() => addCardWithName(id)}>
                 <Icon name="plus" />
                 Add a card
               </CardListButton>
-            </ListContainer>
+            </div>
           </div>
         )}
       </div>
@@ -122,14 +123,14 @@ const CardListWithDnd = DropTarget(
 export const CardList = ({ id, ...props }) => (
   <Query
     variables={{ cardListId: id }}
-    query={gql`query CardList($cardListId: ID) {
-      list(where: { id: $cardListId }) {
-        ...CardList_list
+    query={gql`
+      query CardList($cardListId: ID) {
+        list(where: { id: $cardListId }) {
+          ...CardList_list
         }
       }
       ${CardListfragments.list}
-      `
-    }>
+    `}>
     {({ loading, error, data }) => {
       if (error) {
         return <span>Load error!</span>;
@@ -143,15 +144,14 @@ export const CardList = ({ id, ...props }) => (
           {...props}
           cardList={cardList}
           id={id}
-        />);
-      }
-    }
+        />
+      );
+    }}
   </Query>
 );
 
 const CardListHeader = ({ name, children }) => (
-  <div
-    style={styles.header}>
+  <div className={styles.header}>
     <Header
       textAlign="center"
       className={styles.title}>
@@ -172,21 +172,6 @@ const CardListHeader = ({ name, children }) => (
   </div>
 );
 
-const InnerScrollContainer = ({ children }) => <div
-  className={styles.inner}>
-  {children}
-</div>;
-
-const CardsContainer = ({ children }) =>  <div
-  className={styles.container}>
-  {children}
-</div>;
-
-const ListContainer = ({ children, style }) => <div
-  className={styles.list} style={style}>
-  {children}
-</div>;
-
 const CardListButton = ({
   onButtonClick,
   children,
@@ -194,7 +179,7 @@ const CardListButton = ({
   <Button
     className={styles.button}
     compact
-    onClick={() => onButtonClick()} >
+    onClick={() => onButtonClick()}>
     {children}
   </Button>
 );

@@ -15,11 +15,11 @@
   flex-direction: row;
   align-items: center;
   padding: 0.4em 0;
+}
 
-  .title {
-    flex-grow: 1;
-    margin-bottom: 0; // reduce semantic-uis bottom border
-  }
+.title {
+  flex-grow: 1;
+  margin-bottom: 0; /* reduce semantic-uis bottom border */
 }
 
 .list {

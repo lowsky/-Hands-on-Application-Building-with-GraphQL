@@ -1,37 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Message } from 'semantic-ui-react';
 
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 import { DragSource } from 'react-dnd';
 import { CardComponent } from './CardComponent';
-
-const CardDiv = styled.div`
-  border-radius: 3px;
-  margin: 0.1em 0 0 0;
-  border-bottom: 1px solid #ccc;
-  background-color: #fff;
-  padding: 10px;
-`;
-
-const ShowDiffWarning = ({
-  newValue,
-  currentValue,
-}) => (
-  <Message
-    warning
-    size="mini"
-    hidden={newValue === currentValue}>
-    <b>New:</b> {newValue}
-  </Message>
-);
-ShowDiffWarning.propTypes = {
-  newValue: PropTypes.string,
-  currentValue: PropTypes.string,
-};
 
 const EditCardMutation = gql`
   mutation updateCard(

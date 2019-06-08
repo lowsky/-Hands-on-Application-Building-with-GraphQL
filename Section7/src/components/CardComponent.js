@@ -3,6 +3,7 @@ import { Button, Form, Icon, Image, Message, Modal, Segment } from 'semantic-ui-
 import TimeAgo from 'react-timeago';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 export class CardComponent extends React.Component {
   constructor(props) {
@@ -72,7 +73,7 @@ export class CardComponent extends React.Component {
       old_name,
       old_description,
     })
-      .then(({ data }) => {
+      .then(() => {
         this.setLoading(false);
         this.hide();
       })
@@ -241,4 +242,29 @@ CardComponent.fragments = {
           }
       }
   `,
+};
+
+const CardDiv = styled.div`
+  border-radius: 3px;
+  margin: 0.1em 0 0 0;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+`;
+
+const ShowDiffWarning = ({
+                           newValue,
+                           currentValue,
+                         }) => (
+  <Message
+    warning
+    size="mini"
+    hidden={newValue === currentValue}>
+    <b>New:</b> {newValue}
+  </Message>
+);
+
+ShowDiffWarning.propTypes = {
+  newValue: PropTypes.string,
+  currentValue: PropTypes.string,
 };
