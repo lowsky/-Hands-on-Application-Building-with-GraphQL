@@ -1,0 +1,41 @@
+.inner {
+  flex-shrink: 1;
+  flex-grow: 0;
+  overflow: auto;
+}
+
+.container {
+  border: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.4em 0;
+
+  .title {
+    flex-grow: 1;
+    margin-bottom: 0; // reduce semantic-uis bottom border
+  }
+}
+
+.list {
+  background-color: lightgrey;
+  padding: 0.4em;
+  width: 20em;
+  color: black;
+  margin-right: 1em;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-direction: column;
+  display: flex;
+}
+
+.button {
+  margin: 0.1em 0 0 0;
+  border-bottom: 1px solid #ccc;
+  background-color: grey;
+}

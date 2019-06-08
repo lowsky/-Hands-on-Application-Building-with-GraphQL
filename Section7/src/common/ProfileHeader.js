@@ -31,7 +31,6 @@ const ProfileHeaderContainer = ({ children }) => (
           <span>Home</span>
         </Link>
       </div>
-
       {children}
     </div>
   </Container>
@@ -51,7 +50,6 @@ export const ProfileHeader = () => (
       }
     `}
 >
-
   {
     ({ loading, error, data }) => {
       if (loading) {

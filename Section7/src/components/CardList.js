@@ -12,6 +12,8 @@ import {
   Popup,
 } from 'semantic-ui-react';
 
+import styles from './CardList.module.scss';
+
 import Card, { dndItemType } from './Card';
 
 class CardListWithoutDnd extends React.Component {
@@ -149,18 +151,10 @@ export const CardList = ({ id, ...props }) => (
 
 const CardListHeader = ({ name, children }) => (
   <div
-    style={{
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: '0.4em 0',
-    }}>
+    style={styles.header}>
     <Header
       textAlign="center"
-      style={{
-        flexGrow: 1,
-        marginBottom: 0, // reduce semantic-ui's bottom border
-      }}>
+      className={styles.title}>
       {name}
     </Header>
     <Popup
@@ -178,60 +172,29 @@ const CardListHeader = ({ name, children }) => (
   </div>
 );
 
-const InnerScrollContainer = ({ children }) => {
-  return (
-    <div
-      style={{
-        flexShrink: 1,
-        flexGrow: 0,
-        overflow: 'auto',
-      }}>
-      {children}
-    </div>
-  );
-};
+const InnerScrollContainer = ({ children }) => <div
+  className={styles.inner}>
+  {children}
+</div>;
 
-const CardsContainer = ({ children }) => (
-  <div
-    style={{
-      border: '1em',
-      display: 'flex',
-      flexDirection: 'column',
-    }}>
-    {children}
-  </div>
-);
+const CardsContainer = ({ children }) =>  <div
+  className={styles.container}>
+  {children}
+</div>;
 
-const ListContainer = ({ children, style }) => (
-  <div
-    style={{
-      backgroundColor: 'lightgrey',
-      padding: '0.4em',
-      width: '20em',
-      color: 'black',
-      marginRight: '1em',
-      flexShrink: 0,
-      flexGrow: 0,
-      flexDirection: 'column',
-      display: 'flex',
-      ...style,
-    }}>
-    {children}
-  </div>
-);
+const ListContainer = ({ children, style }) => <div
+  className={styles.list} style={style}>
+  {children}
+</div>;
 
 const CardListButton = ({
   onButtonClick,
   children,
 }) => (
   <Button
+    className={styles.button}
     compact
-    onClick={() => onButtonClick()}
-    style={{
-      margin: '0.1em 0 0 0',
-      borderBottom: '1px solid #ccc',
-      backgroundColor: '#grey',
-    }}>
+    onClick={() => onButtonClick()} >
     {children}
   </Button>
 );

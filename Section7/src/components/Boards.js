@@ -18,7 +18,7 @@ const BoardListItem = ({ name, id, deleteBoard }) => {
       <Link to={`/board/${id}`}>{name}</Link>
       <Button
         onClick={() => deleteBoard(id)}
-        size={'mini'}
+        size='mini'
         icon="trash"
       />
     </div>
