@@ -24,13 +24,16 @@
     "semantic-ui-css": "2.2.12",
     "semantic-ui-react": "0.78.2",
     "styled-components": "4.2.0",
-    "subscriptions-transport-ws": "0.9.16"
+    "subscriptions-transport-ws": "0.9.16",
+    "snyk": "^1.192.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "babel-eslint": "10.0.1",
@@ -46,5 +49,6 @@
     "not dead",
     "not ie < 11",
     "not op_mini all"
-  ]
+  ],
+  "snyk": true
 }
