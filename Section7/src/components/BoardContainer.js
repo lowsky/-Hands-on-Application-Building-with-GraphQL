@@ -8,10 +8,7 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-
-const BoardContainerInner = ({
+export const BoardContainer = ({
   boardName,
   children,
 }) => (
@@ -39,10 +36,6 @@ const BoardContainerInner = ({
   </Container>
 );
 
-export const BoardContainer = DragDropContext(
-  HTML5Backend
-)(BoardContainerInner);
-
 BoardContainer.propTypes = {
   boardName: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
@@ -60,6 +53,7 @@ export const AddListButton = ({ onAddNewList }) => (
     Add a list
   </Button>
 );
+
 export const DelListButton = ({
   action,
   children,

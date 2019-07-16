@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropTarget } from 'react-dnd';
+import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -19,7 +19,6 @@ import Card, { dndItemType } from './Card';
 class CardListWithoutDnd extends React.Component {
   render() {
     const {
-      connectDropTarget,
       isOver,
       id,
       addCardWithName = () => {},
@@ -34,78 +33,78 @@ class CardListWithoutDnd extends React.Component {
 
     return (
       <div>
-        {connectDropTarget(
-          <div>
-            <div
-              className={styles.list}
-              style={{
-                backgroundColor: isOver
-                  ? 'yellow'
-                  : 'lightgrey',
-              }}>
-              <CardListHeader name={name}>
-                <CardListButton
-                  onButtonClick={() =>
-                    deleteListWithId(id)
-                  }>
-                  <Icon name="trash" />
-                </CardListButton>
-              </CardListHeader>
-
-              {loading ? (
-                <Loader active />
-              ) : (
-                <div className={styles.inner}>
-                  <div className={styles.container}>
-                    {cards.map(c => (
-                      <Card
-                        key={c.id}
-                        {...c}
-                        cardListId={id}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-
+        <div>
+          <div
+            className={styles.list}
+            style={{
+              backgroundColor: isOver
+                ? 'yellow'
+                : 'lightgrey',
+            }}>
+            <CardListHeader name={name}>
               <CardListButton
                 onButtonClick={() =>
-                  addCardWithName(id)
+                  deleteListWithId(id)
                 }>
-                <Icon name="plus" />
-                Add a card
+                <Icon name="trash" />
               </CardListButton>
-            </div>
+            </CardListHeader>
+
+            {loading ? (
+              <Loader active />
+            ) : (
+              <div className={styles.inner}>
+                <div className={styles.container}>
+                  {cards.map(c => (
+                    <Card
+                      key={c.id}
+                      {...c}
+                      cardListId={id}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <CardListButton
+              onButtonClick={() =>
+                addCardWithName(id)
+              }>
+              <Icon name="plus" />
+              Add a card
+            </CardListButton>
           </div>
-        )}
+        </div>
       </div>
     );
   }
 }
 
-const dropTarget = {
-  drop(props, monitor) {
-    const cardItem = monitor.getItem();
-    const cardId = cardItem.id;
-    const cardListId = props.id;
-    const oldCardListId = cardItem.cardListId;
-    props.moveCardToList(
-      cardId,
-      oldCardListId,
-      cardListId
-    );
-  },
-  hover() {},
-  canDrop(props, monitor) {
-    const item = monitor.getItem();
-    return !(props.id === item.cardListId);
-  },
+const drop = (props, cardItem) => {
+  const cardId = cardItem.id;
+  const cardListId = props.id;
+  const oldCardListId = cardItem.cardListId;
+  props.moveCardToList(
+    cardId,
+    oldCardListId,
+    cardListId
+  );
 };
 
-const collect = (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
-});
+const CardListWithDnd = props => {
+  const [dndProps, ref] = useDrop({
+    accept: dndItemType,
+    drop: item => drop(props, item),
+    canDrop: item => props.id !== item.cardListId,
+    collect: monitor => ({ isOver: monitor.isOver() }),
+  });
+
+  return (
+    <div ref={ref}>
+      <CardListWithoutDnd {...props} {...dndProps} />
+    </div>
+  );
+};
 
 const CardListfragments = {
   list: gql`
@@ -119,12 +118,6 @@ const CardListfragments = {
     ${Card.fragments.card}
   `,
 };
-
-const CardListWithDnd = DropTarget(
-  dndItemType,
-  dropTarget,
-  collect
-)(CardListWithoutDnd);
 
 export const CardList = ({ id, ...props }) => (
   <Query

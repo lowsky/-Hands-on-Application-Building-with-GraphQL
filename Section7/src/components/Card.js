@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-import { DragSource } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { CardComponent } from './CardComponent';
 
 const EditCardMutation = gql`
@@ -60,18 +60,27 @@ Card.propTypes = {
   storeCard: PropTypes.func,
 };
 
-const CardForDragging = ({
-  connectDragSource,
-  ...props
-}) =>
-  connectDragSource(
-    <div>
+export const dndItemType = 'card';
+
+export const CardForDragging = ({ ...props }) => {
+  // eslint-disable-next-line no-unused-vars
+  const [collected, ref] = useDrag({
+    item: {
+      id: props.id,
+      type: dndItemType,
+      cardListId: props.cardListId,
+    },
+    canDrag: () => props => !!props.cardListId,
+  });
+
+  return (
+    <div ref={ref}>
       <Card {...props} />
     </div>
   );
+};
 
 CardForDragging.propTypes = {
-  connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   ...CardComponent.propTypes,
 };
@@ -80,25 +89,4 @@ CardForDragging.fragments = {
   ...CardComponent.fragments,
 };
 
-const cardSource = {
-  // the only important info:
-  beginDrag: props => ({
-    id: props.id,
-    cardListId: props.cardListId, // for canDrag
-  }),
-  // only can be dragged to a different list
-  canDrag: props => !!props.cardListId,
-};
-
-const collect = (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging(),
-});
-
-export const dndItemType = 'card';
-
-export default DragSource(
-  dndItemType,
-  cardSource,
-  collect
-)(CardForDragging);
+export default CardForDragging;
