@@ -75,9 +75,9 @@ class Board extends React.Component {
       });
     };
 
-    this.subscribeToBoardUpdates(subscribeToMore);
-    this.subscribeToCardUpdates(subscribeToMore);
+    this.subscribeToBoardUpdates(subscribeToMore, boardId);
     this.subscribeToListUpdates(subscribeToMore);
+    this.subscribeToCardUpdates(subscribeToMore);
 
     return (
       <BoardContainer boardName={name}>
@@ -126,7 +126,12 @@ class Board extends React.Component {
         if (!subscriptionData.data) {
           return prev;
         }
+
         const { list } = subscriptionData.data;
+        if (!list) {
+          return prev;
+        }
+
         console.log('updating list:', list);
 
         /* Deleting "leaf" without any board-change-update
