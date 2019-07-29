@@ -14,14 +14,11 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 export class CardComponent extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {
-      name: props.name,
-      description: props.description,
-      showModal: false,
-    };
-  }
+  state = {
+    name: this.props.name,
+    description: this.props.description,
+    showModal: false,
+  };
 
   resetForm() {
     this.setState({
@@ -34,21 +31,34 @@ export class CardComponent extends React.Component {
     });
   }
 
-  componentWillReceiveProps(newProps) {
+  static getDerivedStateFromProps(props, state) {
     console.log(
-      'componentWillReceiveProps()',
-      newProps
+      'getDerivedStateFromProps()',
+      props,
+      state
     );
-    if (this.state.showModal) {
-      this.setState({
-        conflict: { newProps },
-      });
-    } else {
-      this.setState({
-        name: newProps.name,
-        description: newProps.description,
-      });
+
+    if (!state.showModal) {
+      return {
+        ...state,
+        name: props.name,
+        old_name: props.name,
+        description: props.description,
+        old_description: props.description,
+      };
     }
+
+    if (
+      props.name !== state.old_name ||
+      props.description !== state.old_description
+    ) {
+      return {
+        ...state,
+        conflict: { props },
+      };
+    }
+
+    return null;
   }
 
   showAndReset = () => {
