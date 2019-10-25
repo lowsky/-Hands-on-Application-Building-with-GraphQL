@@ -12,7 +12,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import { ApolloLink, split } from 'apollo-link';
 
-import { createNetworkStatusNotifier } from 'react-apollo-network-status';
+import { ApolloNetworkStatusProvider } from 'react-apollo-network-status';
 
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -83,109 +83,98 @@ const link = split(
   middlewareAuthLink.concat(httpLink)
 );
 
-const {
-  NetworkStatusNotifier,
-  link: networkStatusNotifierLink,
-} = createNetworkStatusNotifier();
-
 const client = new ApolloClient({
-  link: networkStatusNotifierLink.concat(link),
+  link,
   cache: new InMemoryCache(),
 });
-
 class App extends Component {
   render() {
     return (
       <div className="App">
         <BrowserRouter>
           <ApolloProvider client={client}>
-            <FullVerticalContainer>
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={() => (
-                    <React.Fragment>
-                      <ProfileHeader />
-                      <GeneralErrorHandler
-                        NetworkStatusNotifier={
-                          NetworkStatusNotifier
-                        }
+            <ApolloNetworkStatusProvider>
+              <FullVerticalContainer>
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={() => (
+                      <React.Fragment>
+                        <ProfileHeader />
+                        <GeneralErrorHandler />
+                        <Boards />
+                      </React.Fragment>
+                    )}
+                  />
+
+                  <Route
+                    exact
+                    path="/board/:id"
+                    render={({ match }) => (
+                      <React.Fragment>
+                        <ProfileHeader />
+                        <GeneralErrorHandler />
+                        <DndProvider
+                          backend={HTML5Backend}>
+                          <CoolBoard
+                            boardId={match.params.id}
+                          />
+                        </DndProvider>
+                      </React.Fragment>
+                    )}
+                  />
+
+                  <Route
+                    exact
+                    path="/login"
+                    render={({ history }) => (
+                      <LoginForm
+                        successfulLogin={token => {
+                          localStorage.setItem(
+                            'token',
+                            token
+                          );
+                          client
+                            .resetStore()
+                            .then(() => {
+                              history.push(`/`);
+                            });
+                        }}
                       />
-                      <Boards />
-                    </React.Fragment>
-                  )}
-                />
+                    )}
+                  />
 
-                <Route
-                  exact
-                  path="/board/:id"
-                  render={({ match }) => (
-                    <React.Fragment>
-                      <ProfileHeader />
-                      <GeneralErrorHandler
-                        NetworkStatusNotifier={
-                          NetworkStatusNotifier
-                        }
+                  <Route
+                    exact
+                    path="/signup"
+                    render={({ history }) => (
+                      <SignupForm
+                        successfulSignup={() => {
+                          history.push('/login');
+                        }}
                       />
-                      <DndProvider backend={HTML5Backend}>
-                        <CoolBoard
-                          boardId={match.params.id}
-                        />
-                      </DndProvider>
-                    </React.Fragment>
-                  )}
-                />
+                    )}
+                  />
 
-                <Route
-                  exact
-                  path="/login"
-                  render={({ history }) => (
-                    <LoginForm
-                      successfulLogin={token => {
-                        localStorage.setItem(
-                          'token',
-                          token
-                        );
-                        client
-                          .resetStore()
-                          .then(() => {
-                            history.push(`/`);
-                          });
-                      }}
-                    />
-                  )}
-                />
-
-                <Route
-                  exact
-                  path="/signup"
-                  render={({ history }) => (
-                    <SignupForm
-                      successfulSignup={() => {
-                        history.push('/login');
-                      }}
-                    />
-                  )}
-                />
-
-                <Route
-                  exact
-                  path="/logout"
-                  render={({ history }) => {
-                    localStorage.removeItem('token');
-                    client.resetStore().then(() => {
-                      history.push(`/`);
-                    });
-                    return (
-                      <p>
-                        Please wait, logging out ...
-                      </p>
-                    );
-                  }}
-                />
-              </Switch>
-            </FullVerticalContainer>
+                  <Route
+                    exact
+                    path="/logout"
+                    render={({ history }) => {
+                      localStorage.removeItem('token');
+                      client.resetStore().then(() => {
+                        history.push(`/`);
+                      });
+                      return (
+                        <p>
+                          Please wait, logging out ...
+                        </p>
+                      );
+                    }}
+                  />
+                </Switch>
+              </FullVerticalContainer>
+            </ApolloNetworkStatusProvider>
           </ApolloProvider>
         </BrowserRouter>
       </div>
