@@ -51,7 +51,7 @@ const BoardAdapter = ({ data }) => {
 
 const BoardQuery = gql`
   query board($boardId: ID) {
-    board: Board(id: $boardId) {
+    board(where:{id: $boardId}) {
       name
       lists {
         id
@@ -71,10 +71,18 @@ const config = {
 };
 const CoolBoard = graphql(BoardQuery, config)(BoardAdapter);
 
+/*
+   Just as an example, because this does not work any longer
+   with the prisma server, because the schema has changed:
+   It is not compatible any longer:
+     query { board(id:"578"){ name ...} }
+   needs to be changed to
+     query { board(where:{id:"578"}){ name ...} }
+ */
 function createClient() {
   return new ApolloClient({
     link: createHttpLink({
-      uri: 'https://api.graph.cool/simple/v1/cjc10hp730o6u01143mnnalq4',
+      uri: 'http://localhost:4466',
     }),
     cache: new InMemoryCache(),
   });
@@ -97,7 +105,7 @@ class App extends Component {
           // or:
           // createClientMock()
         }>
-          <CoolBoard boardId="cjc10rgoj721s0147ui3wzapk" />
+          <CoolBoard boardId="123" />
         </ApolloProvider>
       </div>
     );

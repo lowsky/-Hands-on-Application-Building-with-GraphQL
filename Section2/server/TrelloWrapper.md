@@ -10,7 +10,7 @@ You will first need to install all libraries per `npm install` or `yarn`.
 ```bash
 yarn run start
 ```
-and open [http://localhost:3000/graphiql](http://localhost:3000/graphiql?query=%7B%0A%20%20Member(username%3A%22taco%22)%20%7B%0A%20%20%20%20id%0A%20%20%20%20url%0A%20%20%20%20username%0A%20%20%20%20boards%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D)
+and open [http://localhost:3000/graphql](http://localhost:3000/graphql?query=%7B%0A%20%20Member(username%3A%22taco%22)%20%7B%0A%20%20%20%20id%0A%20%20%20%20url%0A%20%20%20%20username%0A%20%20%20%20boards%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D)
 for this query:
 ```
 {

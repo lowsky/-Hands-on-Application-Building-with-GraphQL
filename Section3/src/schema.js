@@ -24,8 +24,12 @@ const typeDefs = `
   }
   type Query {
     hello: String
-    Board(id: String): Board
-  }`;
+    Board(where: BoardWhereUniqueInput): Board
+  }
+  input BoardWhereUniqueInput {
+    id: ID
+  }
+`;
 const resolvers = {
   Board: () => ({
     name: 'old resolvers',
