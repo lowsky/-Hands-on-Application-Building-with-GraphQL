@@ -3,23 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "apollo-cache-inmemory": "1.6.0",
-    "apollo-client": "2.6.0",
-    "apollo-link": "1.2.11",
-    "apollo-link-http": "1.5.14",
+    "apollo-cache-inmemory": "1.6.5",
+    "apollo-client": "2.6.8",
+    "apollo-link": "1.2.13",
+    "apollo-link-http": "1.5.16",
     "graphql": "14.3.1",
-    "graphql-tag": "2.10.1",
-    "graphql-tools": "4.0.4",
+    "graphql-tag": "2.10.3",
+    "graphql-tools": "4.0.6",
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-apollo": "2.5.5",
     "react-dnd": "2.5.4",
     "react-dnd-html5-backend": "2.5.4",
     "react-dom": "16.8.6",
-    "react-scripts": "3.0.1",
+    "react-scripts": "3.4.0",
     "semantic-ui-css": "2.2.12",
     "semantic-ui-react": "0.78.2",
-    "styled-components": "4.2.0"
+    "styled-components": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,13 +28,13 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "babel-eslint": "10.0.1",
-    "eslint": "^5.16.0",
+    "babel-eslint": "10.0.3",
+    "eslint": "6.8.0",
     "eslint-config-prettier": "4.3.0",
     "eslint-config-react-app": "4.0.1",
-    "eslint-plugin-prettier": "3.1.0",
-    "eslint-plugin-react": "7.13.0",
-    "prettier": "1.17.1"
+    "eslint-plugin-prettier": "3.1.2",
+    "eslint-plugin-react": "7.18.3",
+    "prettier": "1.19.1"
   },
   "browserslist": [
     ">0.2%",
