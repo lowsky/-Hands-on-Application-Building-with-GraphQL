@@ -1,11 +1,15 @@
-**Note:** After one year, this project got some important updates. Maintenanc is _an active progress_.  
+In the last 2 years, the demo on [www.coolboard.fun](https://www.coolboard.fun) has got many upgrades and runs with a complete new server implementation!
+
+---
+**Note:** This code base of the video course (>2 years old) still gets some minor updated: Maintenance is _an active progress_:
 
 * upgrade to more React Hooks ⚛️
-* support full Offline mode (like PWA)
 * more lightweight functional React compoenents 
 * upgrade to Prisma v2 ?
 * switch to Typescript ?
 * add more features ?
+
+-> add a feature request in this repo as [an issue](https://github.com/lowsky/-Hands-on-Application-Building-with-GraphQL/issues/new/choose)
 
 This repo contains the *latest, inofficial* version. For  live demo head over to https://www.coolboard.fun
 
