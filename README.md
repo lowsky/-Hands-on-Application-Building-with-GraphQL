@@ -4,14 +4,14 @@ In the last 2 years, the demo on [www.coolboard.fun](https://www.coolboard.fun) 
 **Note:** This code base of the video course (>2 years old) still gets some minor updated: Maintenance is _an active progress_:
 
 * upgrade to more React Hooks ⚛️
-* more lightweight functional React compoenents 
-* upgrade to Prisma v2 ?
+* migrate to lightweight functional React components 
+* upgrade to Prisma v2 or FaunaDB or Hasura or Nexus?
 * switch to Typescript ?
 * add more features ?
 
--> add a feature request in this repo as [an issue](https://github.com/lowsky/-Hands-on-Application-Building-with-GraphQL/issues/new/choose)
+-> Add a feature request in this repo as [an issue](https://github.com/lowsky/-Hands-on-Application-Building-with-GraphQL/issues/new/choose)
 
-This repo contains the *latest, inofficial* version. For  live demo head over to https://www.coolboard.fun
+This repo contains the *latest, inofficial* version. For  live demo head over to https://www.coolboard.fun?utm_source=github&utm_medium=repository
 
 # Hands-on Application Building with GraphQL [Video]
 This is the code repository for [Hands-on Application Building with GraphQL [Video]](https://www.packtpub.com/web-development/hands-application-building-graphql-video?utm_source=github&utm_medium=repository&utm_campaign=9781788991865), published by [Packt](https://www.packtpub.com/?utm_source=github). It contains all the supporting project files necessary to work through the video course from start to finish.
@@ -27,7 +27,7 @@ Finally, you will learn troubleshooting typical problems that may occur while ru
 <UL>
 <LI>Build complete, effective web apps that interact with a backend via GraphQL queries. 
 <LI>Construct a schema for your project on GraphQL 
-<LI>Create your own server for your application in GraphQL&nbsp; 
+<LI>Create your own server for your application in GraphQL
 <LI>Work with your own local server for your application 
 <LI>Set up a React application to build your application 
 <LI>Connect prisma/graph.cool as a cloud-based realtime GraphQL database 
@@ -48,8 +48,8 @@ This course has the following software requirements:<br/>
 **Code Repository** for 
 [Hands-on Application Building with GraphQL](https://www.packtpub.com/web-development/hands-application-building-graphql-video), Published by [Packt](https://www.packtpub.com/)
 
-**Author**: Robert Hostlowsky (robert.hostlowsky @ codecentric.de) [on twitter: @rhosts](https://www.twitter.com/rhosts) 
+**Author**: Robert Hostlowsky [on twitter: @rhosts](https://www.twitter.com/rhosts)
 
-There is this **live demo** available at [https://coolboard.netlify.com/](https://coolboard.netlify.com/)
+There is this **live demo** available at [https://www.coolboard.fun/](https://www.coolboard.fun/?utm_source=github&utm_medium=repository)
 
 ![https://github.com/lowsky/Hands-on-Application-Building-with-GraphQL-and-React/blob/add-auth0/public/screenshot.png](https://github.com/lowsky/Hands-on-Application-Building-with-GraphQL-and-React/blob/add-auth0/public/screenshot.png)
