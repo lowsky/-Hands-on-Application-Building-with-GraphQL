@@ -1,17 +1,18 @@
-In the last 2 years, the demo on [www.coolboard.fun](https://www.coolboard.fun) has got many upgrades and runs with a complete new server implementation!
+In the last 3 years, the demo on [www.coolboard.fun](https://www.coolboard.fun) has got many upgrades!
+It has a complete new server implementation, base on serverless functions!
 
 ---
 **Note:** This code base of the video course (>2 years old) still gets some minor updated: Maintenance is _an active progress_:
 
 * upgrade to more React Hooks ⚛️
-* migrate to lightweight functional React components 
-* upgrade to Prisma v2 or FaunaDB or Hasura or Nexus?
+* migrate to functional React components 
+* upgrade to Prisma v2
 * switch to Typescript ?
 * add more features ?
 
--> Add a feature request in this repo as [an issue](https://github.com/lowsky/-Hands-on-Application-Building-with-GraphQL/issues/new/choose)
+-> Add a feature request in this repo as [any request as an issue](https://github.com/lowsky/-Hands-on-Application-Building-with-GraphQL/issues/new/choose)
 
-This repo contains the *latest, inofficial* version. For  live demo head over to https://www.coolboard.fun?utm_source=github&utm_medium=repository
+This repo contains the *latest, inofficial* version. For  live demo head over to [https://www.coolboard.fun](https://www.coolboard.fun?utm_source=github&utm_medium=repository)
 
 # Hands-on Application Building with GraphQL [Video]
 This is the code repository for [Hands-on Application Building with GraphQL [Video]](https://www.packtpub.com/web-development/hands-application-building-graphql-video?utm_source=github&utm_medium=repository&utm_campaign=9781788991865), published by [Packt](https://www.packtpub.com/?utm_source=github). It contains all the supporting project files necessary to work through the video course from start to finish.
